@@ -99,6 +99,26 @@ class Customer {
     }
   }
 
+  /** Search database for customers with the most number of reservations, return an array of the top ten */
+  static async getTopTen() {
+
+    const results = await db.query(
+      `SELECT c.id, first_name  AS "firstName",
+              last_name AS "lastName",
+              phone, c.notes,
+              COUNT(r.id) AS rezys
+      FROM customers AS c
+      JOIN  reservations AS r
+      ON c.id = r.customer_id
+      GROUP BY c.id
+      ORDER BY rezys DESC
+      LIMIT 10;`
+    );
+    console.log("results=", results);
+    return results.rows.map(c => new Customer(c));
+  }
+
+
   /** Search database for customer name. */
   static async search(searchTerm) {
 

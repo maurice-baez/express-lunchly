@@ -16,13 +16,10 @@ router.get("/", async function (req, res, next) {
   const search = req.query.search;
 
   const customers = search ?
-    await Customer.search(search) :
-    await Customer.all();
-
-    debugger;
+  await Customer.search(search) :
+  await Customer.all();
 
   return res.render("customer_list.html", { customers });
-
 });
 
 /** Form to add a new customer. */
@@ -39,6 +36,15 @@ router.post("/add/", async function (req, res, next) {
   await customer.save();
 
   return res.redirect(`/${customer.id}/`);
+});
+
+/** Get list of top ten customers. */
+
+router.get("/top/", async function (req, res, next) {
+
+    const topTen = await Customer.getTopTen();
+
+    return res.render("top_ten.html", { topTen });
 });
 
 /** Show a customer, given their ID. */
@@ -90,5 +96,8 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
 
   return res.redirect(`/${customerId}/`);
 });
+
+
+
 
 module.exports = router;
