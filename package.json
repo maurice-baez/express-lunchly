@@ -11,6 +11,7 @@
   "dependencies": {
     "body-parser": "*",
     "express": "^5.0.0-beta",
+    "express-flash": "^0.0.2",
     "moment": "*",
     "nunjucks": "*",
     "pg": "*"

@@ -9,11 +9,20 @@ const Reservation = require("./models/reservation");
 
 const router = new express.Router();
 
-/** Homepage: show list of customers. */
+/** Homepage: show list of customers, and
+ * handles search for customer. */
 
 router.get("/", async function (req, res, next) {
-  const customers = await Customer.all();
+  const search = req.query.search;
+
+  const customers = search ?
+    await Customer.search(search) :
+    await Customer.all();
+
+    debugger;
+
   return res.render("customer_list.html", { customers });
+
 });
 
 /** Form to add a new customer. */
